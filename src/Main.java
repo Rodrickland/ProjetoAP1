@@ -363,11 +363,3 @@ public class Main {
     }
 }
 
-//A BIA NÂO SE SABE VESTIR
-//A BEA PORTAL E FEIA
-//A BIA TEM I NO NOME
-//LALALA
-
-
-//QUERO COMER
-//EU TENHO FOME
