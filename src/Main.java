@@ -39,7 +39,8 @@ public class Main {
         // h) Users profile
         mostrarPerfisUtilizadores(pessoas, tempos, totalPessoas, totalRedes);
 
-        scanner.close();
+        // i) Use of social networks
+        mostrarUtilizacaoRedes(redes, tempos, totalPessoas, totalRedes);
     }
 
     // --- ALÍNEA A ---
@@ -223,6 +224,10 @@ public class Main {
 
         final int LARGURA_COLUNA = 15;
         final int NUM_PERFIS = 4;
+        final int LIMITE_MODERATE = 90;
+        final int LIMITE_REGULAR = 180;
+        final int LIMITE_INTENSIVE = 300;
+        final String SEPARADOR_COLUNA = "--------------";
 
         String[] nomesPerfis = {"Moderate", "Regular", "Intensive", "Very Intensive"};
         String[][] grelhaPerfis = new String[totalPessoas][NUM_PERFIS];
@@ -234,13 +239,13 @@ public class Main {
                 totalDiario += tempos[i][j];
             }
 
-            int indicePerfil = 3; // > 300 ("Very Intensive")
-            if (totalDiario < 90) {
-                indicePerfil = 0; // < 90 ("Moderate")
-            } else if (totalDiario <= 180) {
-                indicePerfil = 1; // 90 a 180 ("Regular")
-            } else if (totalDiario <= 300) {
-                indicePerfil = 2; // > 180 até 300 ("Intensive")
+            int indicePerfil = 3;
+            if (totalDiario < LIMITE_MODERATE) {
+                indicePerfil = 0;
+            } else if (totalDiario <= LIMITE_REGULAR) {
+                indicePerfil = 1;
+            } else if (totalDiario <= LIMITE_INTENSIVE) {
+                indicePerfil = 2;
             }
 
             int linhaInsercao = contadoresColuna[indicePerfil];
@@ -261,11 +266,10 @@ public class Main {
         System.out.println();
 
         for (int p = 0; p < NUM_PERFIS; p++) {
-            String linhaTracos = "--------------";
             if (p < NUM_PERFIS - 1) {
-                System.out.printf("%-" + LARGURA_COLUNA + "s", linhaTracos + "|");
+                System.out.printf("%-" + LARGURA_COLUNA + "s", SEPARADOR_COLUNA + "|");
             } else {
-                System.out.printf("%-" + LARGURA_COLUNA + "s", linhaTracos);
+                System.out.printf("%-" + LARGURA_COLUNA + "s", SEPARADOR_COLUNA);
             }
         }
         System.out.println();
@@ -279,17 +283,24 @@ public class Main {
         }
         System.out.println();
     }
+
     // --- ALÍNEA I ---
     public static void mostrarUtilizacaoRedes(String[] redes, int[][] tempos,
                                               int totalPessoas, int totalRedes) {
         System.out.println("i) Use of social networks");
+
+        final int TAMANHO_BARRA = 20;
+        final double PASSO_ESCALA = 5.0;
+        final double CEM_POR_CENTO = 100.0;
+        final int LARGURA_NOME_REDE = 10;
+        final String CARATER_BARRA = "*";
+        final String LEGENDA_ESCALA = "+----+----+----+----+";
 
         String[] nomesOrdenados = new String[totalRedes];
         int[] totaisRede = new int[totalRedes];
         int[] qtdUtilizadores = new int[totalRedes];
         int totalGlobal = 0;
 
-        // 1. Calcular total de minutos, quantidade de utilizadores (> 0) e total global
         for (int j = 0; j < totalRedes; j++) {
             nomesOrdenados[j] = redes[j];
             int soma = 0;
@@ -307,7 +318,6 @@ public class Main {
             totalGlobal += soma;
         }
 
-        // 2. Ordenar por ordem decrescente: (1) tempo, (2) qtd utilizadores, (3) ordem alfabética
         for (int a = 0; a < totalRedes - 1; a++) {
             for (int b = a + 1; b < totalRedes; b++) {
                 boolean deveTrocar = false;
@@ -336,12 +346,8 @@ public class Main {
             }
         }
 
-        // 3. Desenhar o histograma na horizontal (escala 1/5 -> cada '*' = 5%, máximo 20 '*')
-        final int TAMANHO_BARRA = 20;
-        final double PASSO_ESCALA = 5.0;
-
         for (int j = 0; j < totalRedes; j++) {
-            double pct = totalGlobal > 0 ? ((double) totaisRede[j] / totalGlobal) * 100.0 : 0.0;
+            double pct = totalGlobal > 0 ? ((double) totaisRede[j] / totalGlobal) * CEM_POR_CENTO : 0.0;
             int numEstrelas = (int) Math.round(pct / PASSO_ESCALA);
             if (numEstrelas > TAMANHO_BARRA) {
                 numEstrelas = TAMANHO_BARRA;
@@ -349,16 +355,16 @@ public class Main {
 
             String barra = "";
             for (int k = 0; k < numEstrelas; k++) {
-                barra += "*";
+                barra += CARATER_BARRA;
             }
 
-            System.out.printf("%-10s|%-" + TAMANHO_BARRA + "s %6.2f%%%n",
+            System.out.printf("%-" + LARGURA_NOME_REDE + "s|%-" + TAMANHO_BARRA + "s %6.2f%%%n",
                     nomesOrdenados[j], barra, pct);
         }
 
-        // 4. Legenda horizontal com intervalos de 25% (escala 1/5)
-        System.out.printf("%-10s+----+----+----+----+%n", "");
-        System.out.printf("%-10s%-5s%-5s%-5s%-5s%s%n", "", "%", "25", "50", "75", "100");
+        System.out.printf("%-" + LARGURA_NOME_REDE + "s" + LEGENDA_ESCALA + "%n", "");
+        System.out.printf("%-" + LARGURA_NOME_REDE + "s%-5s%-5s%-5s%-5s%s%n",
+                "", "%", "25", "50", "75", "100");
         System.out.println();
     }
 }
