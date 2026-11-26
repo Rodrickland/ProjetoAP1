@@ -412,4 +412,5 @@ public static void mostrarPessoasMaisEquilibradas(String[] pessoas, int[][] temp
     System.out.println("}");
     System.out.println();
 }
-// y
+
+
