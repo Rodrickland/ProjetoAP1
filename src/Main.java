@@ -41,6 +41,9 @@ public class Main {
 
         // i) Use of social networks
         mostrarUtilizacaoRedes(redes, tempos, totalPessoas, totalRedes);
+
+        // j)
+        mostrarPessoasMaisEquilibradas(pessoas, tempos, totalPessoas, totalRedes);                                                  int totalPessoas, int totalRedes)
     }
 
     // --- ALÍNEA A ---
@@ -409,3 +412,4 @@ public static void mostrarPessoasMaisEquilibradas(String[] pessoas, int[][] temp
     System.out.println("}");
     System.out.println();
 }
+// y
