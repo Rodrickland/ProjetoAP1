@@ -1,9 +1,12 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+    public static void main(String[] args) throws FileNotFoundException {
+        final String FILE_IN = "input.txt";
+        Scanner scanner = new Scanner(new File(FILE_IN));
 
         final int MAX_PESSOAS = 20;
         final int MAX_REDES = 10;
@@ -44,6 +47,8 @@ public class Main {
 
         // j) Most balanced users
         mostrarPessoasMaisEquilibradas(pessoas, tempos, totalPessoas, totalRedes);
+
+        scanner.close();
     }
 
     // --- ALÍNEA A ---
