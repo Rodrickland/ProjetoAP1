@@ -42,8 +42,8 @@ public class Main {
         // i) Use of social networks
         mostrarUtilizacaoRedes(redes, tempos, totalPessoas, totalRedes);
 
-        // j)
-        mostrarPessoasMaisEquilibradas(pessoas, tempos, totalPessoas, totalRedes);                                                  int totalPessoas, int totalRedes)
+        // j) Most balanced users
+        mostrarPessoasMaisEquilibradas(pessoas, tempos, totalPessoas, totalRedes);
     }
 
     // --- ALÍNEA A ---
@@ -370,47 +370,49 @@ public class Main {
                 "", "%", "25", "50", "75", "100");
         System.out.println();
     }
+
+    // --- ALÍNEA J ---
+    public static void mostrarPessoasMaisEquilibradas(String[] pessoas, int[][] tempos,
+                                                      int totalPessoas, int totalRedes) {
+        System.out.println("j) Most balanced users");
+
+        int[] diferencas = new int[totalPessoas];
+        for (int i = 0; i < totalPessoas; i++) {
+            int maxMinutos = tempos[i][0];
+            int minMinutos = tempos[i][0];
+            for (int j = 1; j < totalRedes; j++) {
+                if (tempos[i][j] > maxMinutos) {
+                    maxMinutos = tempos[i][j];
+                }
+                if (tempos[i][j] < minMinutos) {
+                    minMinutos = tempos[i][j];
+                }
+            }
+            diferencas[i] = maxMinutos - minMinutos;
+        }
+
+        int menorDiferenca = diferencas[0];
+        for (int i = 1; i < totalPessoas; i++) {
+            if (diferencas[i] < menorDiferenca) {
+                menorDiferenca = diferencas[i];
+            }
+        }
+
+        System.out.print("{");
+        boolean primeira = true;
+        for (int i = 0; i < totalPessoas; i++) {
+            if (diferencas[i] == menorDiferenca) {
+                if (!primeira) {
+                    System.out.print(", ");
+                }
+                System.out.print("\"" + pessoas[i] + "\"");
+                primeira = false;
+            }
+        }
+        System.out.println("}");
+        System.out.println();
+    }
 }
 
-// --- ALÍNEA J ---
-public static void mostrarPessoasMaisEquilibradas(String[] pessoas, int[][] tempos,
-                                                  int totalPessoas, int totalRedes) {
-    System.out.println("j) Most balaced users");
-
-    int[] diferencas = new int[totalPessoas];
-    for (int i = 0; i < totalPessoas; i++) {
-        int maxMinutos = tempos[i][0];
-        int minMinutos = tempos[i][0];
-        for (int j = 1; j < totalRedes; j++) {
-            if (tempos[i][j] > maxMinutos) {
-                maxMinutos = tempos[i][j];
-            }
-            if (tempos[i][j] < minMinutos) {
-                minMinutos = tempos[i][j];
-            }
-        }
-        diferencas[i] = maxMinutos - minMinutos;
-    }
-
-    int menorDiferenca = diferencas[0];
-    for (int i = 1; i < totalPessoas; i++) {
-        if (diferencas[i] < menorDiferenca) {
-            menorDiferenca = diferencas[i];
-        }
-    }
-    System.out.print("{");
-    boolean  primeira = true;
-    for (int i = 0; i < totalPessoas; i++) {
-        if (diferencas[i] == menorDiferenca) {
-            if (!primeira) {
-                System.out.println(", ");
-            }
-            System.out.print("\"" + pessoas[i] + "\"");
-            primeira = false;
-        }
-    }
-    System.out.println("}");
-    System.out.println();
-}
-
+//FIM
 
