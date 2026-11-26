@@ -42,7 +42,7 @@ public class Main {
         // i) Use of social networks
         mostrarUtilizacaoRedes(redes, tempos, totalPessoas, totalRedes);
 
-        // j)
+        // j) Most balanced users
         mostrarPessoasMaisEquilibradas(pessoas, tempos, totalPessoas, totalRedes);                                                  int totalPessoas, int totalRedes)
     }
 
