@@ -1,0 +1,5 @@
+Ana, Bruno, Carla
+Instagram, TikTok, YouTube
+30 20 10
+80 60 40
+25 25 25
