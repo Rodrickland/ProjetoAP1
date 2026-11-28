@@ -6,17 +6,27 @@ public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
         final String FILE_IN = "input.txt";
-        Scanner scanner = new Scanner(new File(FILE_IN));
+        Scanner teclado = new Scanner(System.in);
 
-        final int MAX_PESSOAS = 20;
-        final int MAX_REDES = 10;
+        System.out.println("Escolha a origem dos dados:");
+        System.out.println("1 - Ficheiro (" + FILE_IN + ")");
+        System.out.println("2 - Introducao manual");
 
-        String[] pessoas = new String[MAX_PESSOAS];
-        String[] redes = new String[MAX_REDES];
-        int[][] tempos = new int[MAX_PESSOAS][MAX_REDES];
+        int opcao = teclado.nextInt();
+        while (opcao != 1 && opcao != 2) {
+            System.out.println("Opcao invalida. Escolha 1 ou 2:");
+            opcao = teclado.nextInt();
+        }
 
-        int totalPessoas = 5;
-        int totalRedes = 4;
+        boolean leuDeFicheiro = (opcao == 1);
+        Scanner scanner = leuDeFicheiro ? new Scanner(new File(FILE_IN)) : teclado;
+
+        int totalPessoas = scanner.nextInt();
+        int totalRedes = scanner.nextInt();
+
+        String[] pessoas = new String[totalPessoas];
+        String[] redes = new String[totalRedes];
+        int[][] tempos = new int[totalPessoas][totalRedes];
 
         // a) Leitura dos dados
         lerDados(scanner, pessoas, redes, tempos, totalPessoas, totalRedes);
@@ -48,7 +58,9 @@ public class Main {
         // j) Most balanced users
         mostrarPessoasMaisEquilibradas(pessoas, tempos, totalPessoas, totalRedes);
 
-        scanner.close();
+        if (leuDeFicheiro) {
+            scanner.close();
+        }
     }
 
     // --- ALÍNEA A ---
@@ -418,5 +430,3 @@ public class Main {
         System.out.println();
     }
 }
-
-
